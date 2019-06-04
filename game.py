@@ -5,7 +5,7 @@
 # Created by: PyQt4 UI code generator 4.12.1
 #
 # WARNING! All changes made in this file will be lost!
-
+import sys
 from PyQt4 import QtCore, QtGui
 
 try:
@@ -22,10 +22,12 @@ except AttributeError:
     def _translate(context, text, disambig):
         return QtGui.QApplication.translate(context, text, disambig)
 
-class Ui_MainWindow(object):
+class Ui_MainWindow(QtGui.QMainWindow):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
-        MainWindow.resize(900, 637)
+        MainWindow.resize(911, 645)
+        MainWindow.setMinimumSize(QtCore.QSize(911, 645))
+        MainWindow.setMaximumSize(QtCore.QSize(911, 645))
         MainWindow.setContextMenuPolicy(QtCore.Qt.NoContextMenu)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(_fromUtf8("brainstorm.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -79,7 +81,7 @@ class Ui_MainWindow(object):
         self.progressBar.setObjectName(_fromUtf8("progressBar"))
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 900, 25))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 911, 25))
         self.menubar.setObjectName(_fromUtf8("menubar"))
         self.menuAdmin = QtGui.QMenu(self.menubar)
         self.menuAdmin.setObjectName(_fromUtf8("menuAdmin"))
@@ -104,6 +106,11 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        MainWindow.setTabOrder(self.scrollArea, self.radioButton)
+        MainWindow.setTabOrder(self.radioButton, self.radioButton_2)
+        MainWindow.setTabOrder(self.radioButton_2, self.radioButton_3)
+        MainWindow.setTabOrder(self.radioButton_3, self.radioButton_4)
+        MainWindow.setTabOrder(self.radioButton_4, self.dateTimeEdit)
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(_translate("MainWindow", "--- Code Trivia ---", None))
@@ -120,10 +127,41 @@ class Ui_MainWindow(object):
         self.menuApp.setTitle(_translate("MainWindow", "App", None))
         self.actionEdit_questions.setText(_translate("MainWindow", "Edit questions", None))
         self.actionEdit_questions.setStatusTip(_translate("MainWindow", "application Admin only", None))
+        self.actionEdit_questions.triggered.connect(self.edit_questions)
         self.actionSave_edit.setText(_translate("MainWindow", "Save edit", None))
         self.actionSave_edit.setStatusTip(_translate("MainWindow", "application Admin only", None))
         self.actionSave_edit.setShortcut(_translate("MainWindow", "Ctrl+S", None))
+        self.actionSave_edit.triggered.connect(self.Save_edit)
         self.actionExit.setText(_translate("MainWindow", "Exit", None))
         self.actionExit.setStatusTip(_translate("MainWindow", "Exit the application", None))
         self.actionExit.setShortcut(_translate("MainWindow", "Ctrl+Q", None))
+        self.actionExit.triggered.connect(self.close_application)
 
+    def close_application(self):
+        choice = QtGui.QMessageBox.question(self, 'Exit application',
+                                            "Are you sure you want to exit?",
+                                            QtGui.QMessageBox.Yes | QtGui.QMessageBox.No)
+        if choice == QtGui.QMessageBox.Yes:
+            sys.exit()
+        else:
+            pass
+        # save score to leaderboard
+
+    def editor(self):
+        self.textEdit = QtGui.QTextEdit()
+        self.setCentralWidget(self.textEdit)
+
+    def edit_questions(self):
+        name = QtGui.QFileDialog.getOpenFileName(self, 'Open Editor')
+        file = open(name, 'r')
+        self.editor()
+        with file:
+            text = file.read()
+            self.textEdit.setText(text)
+
+    def Save_edit(self):
+        name = QtGui.QFileDialog.getSaveFileName(self, 'save Edit')
+        file = open(name, 'w')
+        text = self.textEdit.toPlainText()
+        file.write(text)
+        file.close()    

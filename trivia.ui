@@ -6,9 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>900</width>
-    <height>637</height>
+    <width>911</width>
+    <height>645</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>911</width>
+    <height>645</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>911</width>
+    <height>645</height>
+   </size>
   </property>
   <property name="contextMenuPolicy">
    <enum>Qt::NoContextMenu</enum>
@@ -200,7 +212,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>900</width>
+     <width>911</width>
      <height>25</height>
     </rect>
    </property>
@@ -253,6 +265,14 @@
    </property>
   </action>
  </widget>
+ <tabstops>
+  <tabstop>scrollArea</tabstop>
+  <tabstop>radioButton</tabstop>
+  <tabstop>radioButton_2</tabstop>
+  <tabstop>radioButton_3</tabstop>
+  <tabstop>radioButton_4</tabstop>
+  <tabstop>dateTimeEdit</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
