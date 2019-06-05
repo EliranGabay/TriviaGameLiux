@@ -6,6 +6,8 @@
 #
 # WARNING! All changes made in this file will be lost!
 import sys
+import time
+from threading import Thread
 import random
 import sql
 from PyQt4 import QtCore, QtGui
@@ -27,7 +29,9 @@ except AttributeError:
 
 
 class Ui_MainWindow(QtGui.QMainWindow):
-    def setupUi(self, MainWindow):
+    def setupUi(self, MainWindow,Dialog):
+        self.mainwin=MainWindow
+        self.dia=Dialog
         self.rnd = [1]
         self.completed = 0
         self.increase = (100/sql.getQuesNums())
@@ -88,6 +92,8 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.lcdNumber = QtGui.QLCDNumber(self.centralwidget)
         self.lcdNumber.setGeometry(QtCore.QRect(23, 12, 91, 31))
         self.lcdNumber.setObjectName(_fromUtf8("lcdNumber"))
+        #t= Thread(target=self._countdown)
+        #t.start()
         self.progressBar = QtGui.QProgressBar(self.centralwidget)
         self.progressBar.setGeometry(QtCore.QRect(180, 20, 701, 23))
         self.progressBar.setProperty("value", 6)
@@ -113,7 +119,7 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.actionNew_Game = QtGui.QAction(MainWindow)
         self.actionNew_Game.setObjectName(_fromUtf8("actionNew_Game"))
         self.menuApp.addAction(self.actionNew_Game)
-        # self.actionNew_Game.triggered.connect(self.new_game)
+        self.actionNew_Game.triggered.connect(self.new_game)
         self.menuApp.addSeparator()
         self.menuApp.addAction(self.actionExit)
         self.menubar.addAction(self.menuApp.menuAction())
@@ -152,6 +158,13 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.actionExit.triggered.connect(self.close_application)
         self.submit.clicked.connect(self.subans)
         self.actionNew_Game.setText(_translate("MainWindow", "New Game", None))
+
+    def _countdown(self):
+        x = 10
+        for i in range(x,0,-1):
+            time.sleep(1)
+            self.lcdnumber.display(i)
+
 
     def get_questions(self):
         self.questions = sql.getAllQues()
@@ -212,14 +225,16 @@ class Ui_MainWindow(QtGui.QMainWindow):
     def setPlayer(self, player):
         self.player = player
 
-    # def new_game(self):
-    #     choice = QtGui.QMessageBox.question(self, 'New Game',
-    #                                         "Are you sure you want to start new game?\n\nyour progress will be lost!",
-    #                                         QtGui.QMessageBox.Yes | QtGui.QMessageBox.No)
-    #     if choice == QtGui.QMessageBox.Yes:
-    #         MainWindow
-    #     else:
-    #         pass
+    def new_game(self):
+        choice = QtGui.QMessageBox.question(self, 'New Game',
+                                            "Are you sure you want to start new game?\n\nyour progress will be lost!",
+                                            QtGui.QMessageBox.Yes | QtGui.QMessageBox.No)
+        if choice == QtGui.QMessageBox.Yes:
+            self.mainwin.close()
+            self.dia.show()
+            
+        else:
+            pass
 
     def close_application(self):
         choice = QtGui.QMessageBox.question(self, 'Exit application',
