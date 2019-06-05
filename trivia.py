@@ -5,9 +5,7 @@
 # Created by: PyQt4 UI code generator 4.12.1
 #
 # WARNING! All changes made in this file will be lost!
-import sys
-import management
-import sql
+
 from PyQt4 import QtCore, QtGui
 
 try:
@@ -24,9 +22,7 @@ except AttributeError:
     def _translate(context, text, disambig):
         return QtGui.QApplication.translate(context, text, disambig)
 
-class Ui_MainWindow(QtGui.QMainWindow):
-    def __init__(self):
-        self.questions=None
+class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
         MainWindow.resize(911, 645)
@@ -106,11 +102,10 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.actionNew_Game = QtGui.QAction(MainWindow)
         self.actionNew_Game.setObjectName(_fromUtf8("actionNew_Game"))
         self.menuApp.addAction(self.actionNew_Game)
-        # self.actionNew_Game.triggered.connect(self.new_game)
         self.menuApp.addSeparator()
         self.menuApp.addAction(self.actionExit)
         self.menubar.addAction(self.menuApp.menuAction())
-      
+
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
         MainWindow.setTabOrder(self.scrollArea, self.ansA)
@@ -135,67 +130,5 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.actionExit.setText(_translate("MainWindow", "Exit", None))
         self.actionExit.setStatusTip(_translate("MainWindow", "Exit the application", None))
         self.actionExit.setShortcut(_translate("MainWindow", "Ctrl+Q", None))
-        self.actionExit.triggered.connect(self.close_application)
-        self.submit.clicked.connect(self.subans)
         self.actionNew_Game.setText(_translate("MainWindow", "New Game", None))
-        
-    def get_questions(self):
-        self.questions = sql.getAllQues()
 
-    def addqs(self,num):
-        qs=self.questions[num-1]
-        textEdit = QtGui.QTextEdit()
-        self.scrollArea.setWidget(textEdit)
-        textEdit.setTextInteractionFlags(QtCore.Qt.NoTextInteraction)      
-        textEdit.setText(qs[1])
-        self.ansA.setText(qs[3])
-        self.ansB.setText(qs[4])
-        self.ansC.setText(qs[5])
-        self.ansD.setText(qs[6])
-        
-
-    def subans(self):
-        print("here")
-        self.addqs(3)
-
-   
-
-    # def new_game(self):
-    #     choice = QtGui.QMessageBox.question(self, 'New Game',
-    #                                         "Are you sure you want to start new game?\n\nyour progress will be lost!",
-    #                                         QtGui.QMessageBox.Yes | QtGui.QMessageBox.No)
-    #     if choice == QtGui.QMessageBox.Yes:
-    #         MainWindow
-    #     else:
-    #         pass
-
-
-
-    def close_application(self):
-        choice = QtGui.QMessageBox.question(self, 'Exit application',
-                                            "Are you sure you want to exit?\n\nyour progress will be lost!",
-                                            QtGui.QMessageBox.Yes | QtGui.QMessageBox.No)
-        if choice == QtGui.QMessageBox.Yes:
-            sys.exit()
-        else:
-            pass
-        
-
-    # def editor(self):
-    #     self.textEdit = QtGui.QTextEdit()
-    #     self.setCentralWidget(self.textEdit)
-
-    # def edit_questions(self):
-    #     name = QtGui.QFileDialog.getOpenFileName(self, 'Open Editor')
-    #     file = open(name, 'r')
-    #     self.editor()
-    #     with file:
-    #         text = file.read()
-    #         self.textEdit.setText(text)
-
-    # def Save_edit(self):
-    #     name = QtGui.QFileDialog.getSaveFileName(self, 'save Edit')
-    #     file = open(name, 'w')
-    #     text = self.textEdit.toPlainText()
-    #     file.write(text)
-    #     file.close()    

@@ -10,6 +10,8 @@
 import sys
 from PyQt4 import QtCore, QtGui
 import game
+import management
+import sql
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -25,7 +27,7 @@ except AttributeError:
     def _translate(context, text, disambig):
         return QtGui.QApplication.translate(context, text, disambig)
 
-class Ui_Dialog(QtGui.QMainWindow):
+class Ui_Dialog(QtGui.QDialog):
     def setupUi(self, Dialog):
         Dialog.setObjectName(_fromUtf8("Dialog"))
         Dialog.resize(596, 349)
@@ -98,23 +100,33 @@ class Ui_Dialog(QtGui.QMainWindow):
 
 
     def leader_board(self):
-        file = open("leaderboard.txt", 'r')
-        textEdit= QtGui.QTextEdit()
+        self.scores = sql.getAllScore()
+        cnt=0
+        textEdit = QtGui.QTextEdit()
         self.scrollArea.setWidget(textEdit)
         textEdit.setTextInteractionFlags(QtCore.Qt.NoTextInteraction)
-        with file:
-            text = file.read()
-            textEdit.setText(text)
-        file.close()    
+        text = "No | NAME\t\t| SCORE"
+        textEdit.setText(text)
+        text = "-----------------------------------------------------------"
+        textEdit.append(text)
+        for s in self.scores:
+            text =str(cnt)+"    |  "+s[0] +"\t\t|"+ str(s[1])
+            textEdit.append(text)
+            cnt+=1
+
+     
+           
        
 
-
     def start_game(self):
-        print(self.lineEdit.text())
+        player=management.leaderboard(self.lineEdit.text(),0)
+        print("name: "+player.name+", score: "+str(player.score))
         Dialog.hide()
         self.MainWindow = QtGui.QMainWindow()
         self.ui = game.Ui_MainWindow()
         self.ui.setupUi(self.MainWindow)
+        self.ui.get_questions()
+        self.ui.addqs(1)
         self.MainWindow.show()
 
 
