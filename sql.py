@@ -34,27 +34,33 @@ def addScore(name, score):
     connection.commit()
 
 
-def getAllScore(data):
+def getAllScore():
+    listS = []
     cursor.execute('SELECT * FROM score')
     row = cursor.fetchone()
     while row is not None:
-        # id = row[0]
-        # score = row[1]
+        name = row[1]
+        score = row[2]
+        listS.append([name, score])
         row = cursor.fetchone()
+    return listS
 
 
-def getAllQues(data):
+def getAllQues():
+    listQ = []
     cursor.execute('SELECT * FROM question')
     row = cursor.fetchone()
     while row is not None:
-        # id = row[0]
-        # que = row[1]
-        # answer = row[2]
-        # op1 = row[3]
-        # op2 = row[4]
-        # op3 = row[5]
-        # op4 = row[6]
+        id = row[0]
+        que = row[1]
+        answer = row[2]
+        op1 = row[3]
+        op2 = row[4]
+        op3 = row[5]
+        op4 = row[6]
+        listQ.append([id, que, answer, op1, op2, op3, op4])
         row = cursor.fetchone()
+    return listQ
 
 
 def checkAnswer(op, id):
