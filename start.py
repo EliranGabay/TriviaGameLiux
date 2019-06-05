@@ -10,7 +10,6 @@
 import sys
 from PyQt4 import QtCore, QtGui
 import game
-import management
 import sql
 
 try:
@@ -119,12 +118,12 @@ class Ui_Dialog(QtGui.QDialog):
        
 
     def start_game(self):
-        player=management.leaderboard(self.lineEdit.text(),0)
-        print("name: "+player.name+", score: "+str(player.score))
+        player=[self.lineEdit.text(),0]
         Dialog.hide()
         self.MainWindow = QtGui.QMainWindow()
         self.ui = game.Ui_MainWindow()
         self.ui.setupUi(self.MainWindow)
+        self.ui.setPlayer(player)
         self.ui.get_questions()
         self.ui.addqs(1)
         self.MainWindow.show()

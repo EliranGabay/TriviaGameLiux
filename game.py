@@ -6,7 +6,7 @@
 #
 # WARNING! All changes made in this file will be lost!
 import sys
-import management
+import random
 import sql
 from PyQt4 import QtCore, QtGui
 
@@ -25,9 +25,8 @@ except AttributeError:
         return QtGui.QApplication.translate(context, text, disambig)
 
 class Ui_MainWindow(QtGui.QMainWindow):
-    def __init__(self):
-        self.questions=None
     def setupUi(self, MainWindow):
+        self.rnd = []
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
         MainWindow.resize(911, 645)
         MainWindow.setMinimumSize(QtCore.QSize(911, 645))
@@ -143,21 +142,55 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.questions = sql.getAllQues()
 
     def addqs(self,num):
-        qs=self.questions[num-1]
+        self.qs=self.questions[num-1]
         textEdit = QtGui.QTextEdit()
         self.scrollArea.setWidget(textEdit)
         textEdit.setTextInteractionFlags(QtCore.Qt.NoTextInteraction)      
-        textEdit.setText(qs[1])
-        self.ansA.setText(qs[3])
-        self.ansB.setText(qs[4])
-        self.ansC.setText(qs[5])
-        self.ansD.setText(qs[6])
+        textEdit.setText(self.qs[1])
+        self.ansA.setText(self.qs[3])
+        self.ansB.setText(self.qs[4])
+        self.ansC.setText(self.qs[5])
+        self.ansD.setText(self.qs[6])
         
 
     def subans(self):
-        print("here")
-        self.addqs(3)
+        bol=None
+        
+        
+        if self.ansA.isChecked():
+            bol=sql.checkAnswer("op1",self.qs[0])
+        elif self.ansB.isChecked():   
+            bol=sql.checkAnswer("op2",self.qs[0])
+        elif self.ansC.isChecked():   
+            bol=sql.checkAnswer("op3",self.qs[0])
+        elif self.ansD.isChecked(): 
+            bol=sql.checkAnswer("op4",self.qs[0])
+        else:
+            QtGui.QMessageBox.warning(self,"Warning",
+                            "CHOOSE AN ANSWER BEFORE SUBMIT!!",
+                            QtGui.QMessageBox.Ok)
+        if len(self.rnd) == sql.getQuesNums():
+            sql.addScore(self.player[0],self.player[1])
+            QtGui.QMessageBox.information(self,"Game Over",
+                            "you finished the game with score: "+str(self.player[1]),
+                            QtGui.QMessageBox.Ok)
+            sys.exit()                
+                            
+        if bol != None:
+            flag = 1
+            while flag != 0:
+                r=random.randint(1,sql.getQuesNums())
+                if r not in self.rnd:
+                    flag = 0
+                    self.addqs(r) 
+                    self.rnd.append(self.qs[0])
+            if bol == True:
+                self.player[1] += 250        
 
+  
+        
+    def setPlayer(self,player):
+        self.player=player
    
 
     # def new_game(self):
