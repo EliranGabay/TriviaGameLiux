@@ -18,22 +18,27 @@ except AttributeError:
 
 try:
     _encoding = QtGui.QApplication.UnicodeUTF8
+
     def _translate(context, text, disambig):
         return QtGui.QApplication.translate(context, text, disambig, _encoding)
 except AttributeError:
     def _translate(context, text, disambig):
         return QtGui.QApplication.translate(context, text, disambig)
 
+
 class Ui_MainWindow(QtGui.QMainWindow):
     def setupUi(self, MainWindow):
-        self.rnd = []
+        self.rnd = [1]
+        self.completed = 0
+        self.increase = (100/sql.getQuesNums())
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
         MainWindow.resize(911, 645)
         MainWindow.setMinimumSize(QtCore.QSize(911, 645))
         MainWindow.setMaximumSize(QtCore.QSize(911, 645))
         MainWindow.setContextMenuPolicy(QtCore.Qt.NoContextMenu)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(_fromUtf8("brainstorm.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(_fromUtf8("brainstorm.png")),
+                       QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)
         self.centralwidget = QtGui.QWidget(MainWindow)
         self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
@@ -43,7 +48,8 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.scrollArea.setObjectName(_fromUtf8("scrollArea"))
         self.scrollAreaWidgetContents = QtGui.QWidget()
         self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 849, 259))
-        self.scrollAreaWidgetContents.setObjectName(_fromUtf8("scrollAreaWidgetContents"))
+        self.scrollAreaWidgetContents.setObjectName(
+            _fromUtf8("scrollAreaWidgetContents"))
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.groupBox = QtGui.QGroupBox(self.centralwidget)
         self.groupBox.setGeometry(QtCore.QRect(30, 350, 851, 231))
@@ -84,8 +90,9 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.lcdNumber.setObjectName(_fromUtf8("lcdNumber"))
         self.progressBar = QtGui.QProgressBar(self.centralwidget)
         self.progressBar.setGeometry(QtCore.QRect(180, 20, 701, 23))
-        self.progressBar.setProperty("value", 24)
+        self.progressBar.setProperty("value", 6)
         self.progressBar.setObjectName(_fromUtf8("progressBar"))
+        self.progressBar.setValue(0)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 911, 25))
@@ -97,7 +104,8 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.statusbar.setObjectName(_fromUtf8("statusbar"))
         MainWindow.setStatusBar(self.statusbar)
         self.actionEdit_questions = QtGui.QAction(MainWindow)
-        self.actionEdit_questions.setObjectName(_fromUtf8("actionEdit_questions"))
+        self.actionEdit_questions.setObjectName(
+            _fromUtf8("actionEdit_questions"))
         self.actionSave_edit = QtGui.QAction(MainWindow)
         self.actionSave_edit.setObjectName(_fromUtf8("actionSave_edit"))
         self.actionExit = QtGui.QAction(MainWindow)
@@ -109,7 +117,7 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.menuApp.addSeparator()
         self.menuApp.addAction(self.actionExit)
         self.menubar.addAction(self.menuApp.menuAction())
-      
+
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
         MainWindow.setTabOrder(self.scrollArea, self.ansA)
@@ -118,7 +126,8 @@ class Ui_MainWindow(QtGui.QMainWindow):
         MainWindow.setTabOrder(self.ansB, self.ansD)
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(_translate("MainWindow", "--- Code Trivia ---", None))
+        MainWindow.setWindowTitle(_translate(
+            "MainWindow", "--- Code Trivia ---", None))
         self.groupBox.setTitle(_translate("MainWindow", "Answers", None))
         self.label.setText(_translate("MainWindow", "a.", None))
         self.label_2.setText(_translate("MainWindow", "b.", None))
@@ -126,72 +135,82 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.label_4.setText(_translate("MainWindow", "d.", None))
         self.submit.setText(_translate("MainWindow", "Submit Answer", None))
         self.menuApp.setTitle(_translate("MainWindow", "App", None))
-        self.actionEdit_questions.setText(_translate("MainWindow", "Edit questions", None))
-        self.actionEdit_questions.setStatusTip(_translate("MainWindow", "application Admin only", None))
-        self.actionSave_edit.setText(_translate("MainWindow", "Save edit", None))
-        self.actionSave_edit.setStatusTip(_translate("MainWindow", "application Admin only", None))
-        self.actionSave_edit.setShortcut(_translate("MainWindow", "Ctrl+S", None))
+        self.actionEdit_questions.setText(
+            _translate("MainWindow", "Edit questions", None))
+        self.actionEdit_questions.setStatusTip(_translate(
+            "MainWindow", "application Admin only", None))
+        self.actionSave_edit.setText(
+            _translate("MainWindow", "Save edit", None))
+        self.actionSave_edit.setStatusTip(_translate(
+            "MainWindow", "application Admin only", None))
+        self.actionSave_edit.setShortcut(
+            _translate("MainWindow", "Ctrl+S", None))
         self.actionExit.setText(_translate("MainWindow", "Exit", None))
-        self.actionExit.setStatusTip(_translate("MainWindow", "Exit the application", None))
+        self.actionExit.setStatusTip(_translate(
+            "MainWindow", "Exit the application", None))
         self.actionExit.setShortcut(_translate("MainWindow", "Ctrl+Q", None))
         self.actionExit.triggered.connect(self.close_application)
         self.submit.clicked.connect(self.subans)
         self.actionNew_Game.setText(_translate("MainWindow", "New Game", None))
-        
+
     def get_questions(self):
         self.questions = sql.getAllQues()
 
-    def addqs(self,num):
-        self.qs=self.questions[num-1]
+    def addqs(self, num):
+        self.qs = self.questions[num-1]
         textEdit = QtGui.QTextEdit()
         self.scrollArea.setWidget(textEdit)
-        textEdit.setTextInteractionFlags(QtCore.Qt.NoTextInteraction)      
+        textEdit.setTextInteractionFlags(QtCore.Qt.NoTextInteraction)
         textEdit.setText(self.qs[1])
         self.ansA.setText(self.qs[3])
         self.ansB.setText(self.qs[4])
         self.ansC.setText(self.qs[5])
         self.ansD.setText(self.qs[6])
-        
 
     def subans(self):
-        bol=None
-        
-        
+        print(self.rnd)
+        print(len(self.rnd))
+        print(sql.getQuesNums())
+        bol = None
         if self.ansA.isChecked():
-            bol=sql.checkAnswer("op1",self.qs[0])
-        elif self.ansB.isChecked():   
-            bol=sql.checkAnswer("op2",self.qs[0])
-        elif self.ansC.isChecked():   
-            bol=sql.checkAnswer("op3",self.qs[0])
-        elif self.ansD.isChecked(): 
-            bol=sql.checkAnswer("op4",self.qs[0])
+            bol = sql.checkAnswer("op1", self.qs[0])
+        elif self.ansB.isChecked():
+            bol = sql.checkAnswer("op2", self.qs[0])
+        elif self.ansC.isChecked():
+            bol = sql.checkAnswer("op3", self.qs[0])
+        elif self.ansD.isChecked():
+            bol = sql.checkAnswer("op4", self.qs[0])
         else:
-            QtGui.QMessageBox.warning(self,"Warning",
-                            "CHOOSE AN ANSWER BEFORE SUBMIT!!",
-                            QtGui.QMessageBox.Ok)
-        if len(self.rnd) == sql.getQuesNums():
-            sql.addScore(self.player[0],self.player[1])
-            QtGui.QMessageBox.information(self,"Game Over",
-                            "you finished the game with score: "+str(self.player[1]),
-                            QtGui.QMessageBox.Ok)
-            sys.exit()                
-                            
+            QtGui.QMessageBox.warning(self, "Warning",
+                                      "CHOOSE AN ANSWER BEFORE SUBMIT!!",
+                                      QtGui.QMessageBox.Ok)
+
         if bol != None:
             flag = 1
             while flag != 0:
-                r=random.randint(1,sql.getQuesNums())
+                if(len(self.rnd) == sql.getQuesNums()):
+                    break
+                r = random.randint(1, sql.getQuesNums())
                 if r not in self.rnd:
                     flag = 0
-                    self.addqs(r) 
-                    self.rnd.append(self.qs[0])
+                    self.addqs(r)
+            self.completed += self.increase
+            self.progressBar.setValue(self.completed)
             if bol == True:
-                self.player[1] += 250        
+                self.player[1] += 250
 
-  
-        
-    def setPlayer(self,player):
-        self.player=player
-   
+            if len(self.rnd) == sql.getQuesNums():
+                self.progressBar.setValue(100)
+                sql.addScore(self.player[0], self.player[1])
+                QtGui.QMessageBox.information(self, "Game Over",
+                                              "you finished the game with score: " +
+                                              str(self.player[1]),
+                                              QtGui.QMessageBox.Ok)
+                sys.exit()
+            self.rnd.append(self.qs[0])
+
+    def setPlayer(self, player):
+        self.player = player
 
     # def new_game(self):
     #     choice = QtGui.QMessageBox.question(self, 'New Game',
@@ -202,8 +221,6 @@ class Ui_MainWindow(QtGui.QMainWindow):
     #     else:
     #         pass
 
-
-
     def close_application(self):
         choice = QtGui.QMessageBox.question(self, 'Exit application',
                                             "Are you sure you want to exit?\n\nyour progress will be lost!",
@@ -212,7 +229,6 @@ class Ui_MainWindow(QtGui.QMainWindow):
             sys.exit()
         else:
             pass
-        
 
     # def editor(self):
     #     self.textEdit = QtGui.QTextEdit()
@@ -231,4 +247,4 @@ class Ui_MainWindow(QtGui.QMainWindow):
     #     file = open(name, 'w')
     #     text = self.textEdit.toPlainText()
     #     file.write(text)
-    #     file.close()    
+    #     file.close()
