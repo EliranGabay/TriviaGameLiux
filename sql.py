@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 # viewer sqlite https://inloop.github.io/sqlite-viewer/
 # to run the sql "python3 sql.py"
 import sqlite3
@@ -6,7 +7,7 @@ connection = sqlite3.connect('sql_data.db')
 cursor = connection.cursor()
 
 # create table
-# cursor.execute('CREATE TABLE question(id INTEGER PRIMARY KEY ,name TEXT)')
+# cursor.execute('CREATE TABLE score(id INTEGER PRIMARY KEY ,name TEXT,score INTEGER)')
 # cursor.execute('INSERT INTO question VALUES(?,?)',(1,'what my name?')) #add new row
 # cursor.execute('INSERT INTO question(name) VALUES(?)',('what my last name?',))  # add new row auto id
 # cursor.execute('SELECT * FROM question WHERE id=?',(1,)) #read from sql
@@ -26,7 +27,23 @@ cursor = connection.cursor()
 # connection.close()
 
 
-def getAllRows(data):
+def addScore(name, score):
+    cursor.execute('INSERT INTO score VALUES(?,?,?)',
+                   (getScoresNums()+1, name, score))
+    print("add score")
+    connection.commit()
+
+
+def getAllScore(data):
+    cursor.execute('SELECT * FROM score')
+    row = cursor.fetchone()
+    while row is not None:
+        # id = row[0]
+        # score = row[1]
+        row = cursor.fetchone()
+
+
+def getAllQues(data):
     cursor.execute('SELECT * FROM question')
     row = cursor.fetchone()
     while row is not None:
@@ -52,6 +69,16 @@ def checkAnswer(op, id):
 def getQuesNums():  # get number of rows in table
     cursor.execute('SELECT id FROM question')
     row = cursor.fetchone()
+    while row is not None:
+        id = row[0]
+        row = cursor.fetchone()
+    return id
+
+
+def getScoresNums():  # get number of rows in table
+    cursor.execute('SELECT id FROM score')
+    row = cursor.fetchone()
+    id = 0
     while row is not None:
         id = row[0]
         row = cursor.fetchone()
