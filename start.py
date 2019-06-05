@@ -11,6 +11,7 @@ import sys
 from PyQt4 import QtCore, QtGui
 import game
 import sql
+import operator
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -121,6 +122,7 @@ class Ui_Dialog(QtGui.QDialog):
         textEdit.setText(text)
         text = "-----------------------------------------------------------"
         textEdit.append(text)
+        self.scores.sort(key=operator.itemgetter(1), reverse=True)
         for s in self.scores:
             text = str(cnt)+"    |  "+s[0] + "\t\t|" + str(s[1])
             textEdit.append(text)
