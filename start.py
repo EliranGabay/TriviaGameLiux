@@ -105,7 +105,6 @@ class Ui_Dialog(QtGui.QDialog):
         Dialog.setTabOrder(self.scrollArea, self.pushButton_2)
 
     def retranslateUi(self, Dialog):
-        print("runnnnnnnnnnnnn\n")
         Dialog.setWindowTitle(_translate(
             "Dialog", "--- Code Trivia ---", None))
         self.label_2.setText(_translate("Dialog", "Leaderboard", None))
