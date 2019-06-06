@@ -96,7 +96,7 @@ def addQues(name, answer, op1, op2, op3, op4):
                    (getQuesNums()+1, name, answer, op1, op2, op3, op4))
     print("add ques")
     connection.commit()
-    #printSQL()
+    # printSQL()
 
 
 def read_from_file():
@@ -104,9 +104,9 @@ def read_from_file():
         text = myFile.read()
         result = text.split("$")
     for i in result:
-        temp=i.split("@")
-        addQues(temp[0], temp[5][:3], temp[1][2:len(temp[1])-1], temp[2][2:len(temp[2])-1], temp[3][2:len(temp[3])-1], temp[4][2:len(temp[4])-1])
-    
+        temp = i.split("@")
+        addQues(temp[0], temp[5][:3], temp[1][2:len(temp[1])-1], temp[2]
+                [2:len(temp[2])-1], temp[3][2:len(temp[3])-1], temp[4][2:len(temp[4])-1])
 
 
 def printSQL():

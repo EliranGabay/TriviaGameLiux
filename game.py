@@ -169,7 +169,7 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.ansA.setAutoExclusive(False)
         self.ansA.setChecked(False)
         self.ansA.setAutoExclusive(True)
-        
+
         self.ansB.setAutoExclusive(False)
         self.ansB.setChecked(False)
         self.ansB.setAutoExclusive(True)
@@ -182,12 +182,10 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.ansD.setChecked(False)
         self.ansD.setAutoExclusive(True)
 
-
         self.ansA.setText(self.qs[3])
         self.ansB.setText(self.qs[4])
         self.ansC.setText(self.qs[5])
         self.ansD.setText(self.qs[6])
-       
 
     def subans(self):
         bol = None
