@@ -8,6 +8,7 @@
 import sys
 import random
 import sql
+import os
 from PyQt4 import QtCore, QtGui
 
 try:
@@ -27,9 +28,9 @@ except AttributeError:
 
 
 class Ui_MainWindow(QtGui.QMainWindow):
-    def setupUi(self, MainWindow,Dialog):
-        self.mainwin=MainWindow
-        self.dia=Dialog
+    def setupUi(self, MainWindow, Dialog):
+        self.mainwin = MainWindow
+        self.dia = Dialog
         self.rnd = [1]
         self.completed = 0
         self.increase = (100/sql.getQuesNums())
@@ -90,7 +91,7 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.lcdNumber = QtGui.QLCDNumber(self.centralwidget)
         self.lcdNumber.setGeometry(QtCore.QRect(23, 12, 91, 31))
         self.lcdNumber.setObjectName(_fromUtf8("lcdNumber"))
-      
+
         self.progressBar = QtGui.QProgressBar(self.centralwidget)
         self.progressBar.setGeometry(QtCore.QRect(180, 20, 701, 23))
         self.progressBar.setProperty("value", 6)
@@ -156,7 +157,6 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.submit.clicked.connect(self.subans)
         self.actionNew_Game.setText(_translate("MainWindow", "New Game", None))
 
-
     def get_questions(self):
         self.questions = sql.getAllQues()
 
@@ -172,9 +172,6 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.ansD.setText(self.qs[6])
 
     def subans(self):
-        print(self.rnd)
-        print(len(self.rnd))
-        print(sql.getQuesNums())
         bol = None
         if self.ansA.isChecked():
             bol = sql.checkAnswer("op1", self.qs[0])
@@ -213,12 +210,8 @@ class Ui_MainWindow(QtGui.QMainWindow):
                                               str(self.player[1]),
                                               QtGui.QMessageBox.Ok)
                 self.mainwin.close()
-                
-                self.dia.show()                              
-                
+                os.system('./start.py')
             self.rnd.append(self.qs[0])
-
-        
 
     def setPlayer(self, player):
         self.player = player
@@ -229,8 +222,9 @@ class Ui_MainWindow(QtGui.QMainWindow):
                                             QtGui.QMessageBox.Yes | QtGui.QMessageBox.No)
         if choice == QtGui.QMessageBox.Yes:
             self.mainwin.close()
-            self.dia.show()
-            
+            # self.dia.show()
+            os.system('./start.py')
+
         else:
             pass
 
