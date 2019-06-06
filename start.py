@@ -11,6 +11,7 @@ import sys
 from PyQt4 import QtCore, QtGui
 import game
 import sql
+import logo
 import operator
 
 try:
@@ -133,7 +134,7 @@ class Ui_Dialog(QtGui.QDialog):
         Dialog.hide()
         self.MainWindow = QtGui.QMainWindow()
         self.ui = game.Ui_MainWindow()
-        self.ui.setupUi(self.MainWindow)
+        self.ui.setupUi(self.MainWindow, Dialog)
         self.ui.setPlayer(player)
         self.ui.get_questions()
         self.ui.addqs(1)
@@ -142,9 +143,13 @@ class Ui_Dialog(QtGui.QDialog):
 
 if __name__ == "__main__":
     app = QtGui.QApplication(sys.argv)
+    Dialog2 = QtGui.QDialog()
+    ui2 = logo.Ui_Dialog2()
+    ui2.setupUi(Dialog2)
+    Dialog2.show()
     Dialog = QtGui.QDialog()
     ui = Ui_Dialog()
     ui.setupUi(Dialog)
-    Dialog.show()
+    # Dialog.show()
     ui.leader_board()
     sys.exit(app.exec_())
