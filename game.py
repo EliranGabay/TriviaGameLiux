@@ -138,7 +138,7 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.label_3.setText(_translate("MainWindow", "c.", None))
         self.label_4.setText(_translate("MainWindow", "d.", None))
         self.submit.setText(_translate("MainWindow", "Submit Answer", None))
-        self.menuApp.setTitle(_translate("MainWindow", "App", None))
+        self.menuApp.setTitle(_translate("MainWindow", "Menu", None))
         self.actionEdit_questions.setText(
             _translate("MainWindow", "Edit questions", None))
         self.actionEdit_questions.setStatusTip(_translate(
@@ -166,10 +166,28 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.scrollArea.setWidget(textEdit)
         textEdit.setTextInteractionFlags(QtCore.Qt.NoTextInteraction)
         textEdit.setText(self.qs[1])
+        self.ansA.setAutoExclusive(False)
+        self.ansA.setChecked(False)
+        self.ansA.setAutoExclusive(True)
+        
+        self.ansB.setAutoExclusive(False)
+        self.ansB.setChecked(False)
+        self.ansB.setAutoExclusive(True)
+
+        self.ansC.setAutoExclusive(False)
+        self.ansC.setChecked(False)
+        self.ansC.setAutoExclusive(True)
+
+        self.ansD.setAutoExclusive(False)
+        self.ansD.setChecked(False)
+        self.ansD.setAutoExclusive(True)
+
+
         self.ansA.setText(self.qs[3])
         self.ansB.setText(self.qs[4])
         self.ansC.setText(self.qs[5])
         self.ansD.setText(self.qs[6])
+       
 
     def subans(self):
         bol = None

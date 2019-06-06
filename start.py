@@ -66,6 +66,7 @@ class Ui_Dialog(QtGui.QDialog):
         self.formLayout.setWidget(0, QtGui.QFormLayout.LabelRole, self.label)
         self.lineEdit = QtGui.QLineEdit(Dialog)
         self.lineEdit.setObjectName(_fromUtf8("lineEdit"))
+        self.lineEdit.setMaxLength(6)
         self.formLayout.setWidget(
             1, QtGui.QFormLayout.LabelRole, self.lineEdit)
         spacerItem = QtGui.QSpacerItem(
@@ -118,18 +119,25 @@ class Ui_Dialog(QtGui.QDialog):
         textEdit = QtGui.QTextEdit()
         self.scrollArea.setWidget(textEdit)
         textEdit.setTextInteractionFlags(QtCore.Qt.NoTextInteraction)
-        text = "No | NAME\t\t| SCORE"
+        text = "\t~ Top scores ~"
         textEdit.setText(text)
-        text = "-----------------------------------------------------------"
+        text = "---------------------------------------------------------"
+        textEdit.append(text)
+        text = "No | NAME\t\t| SCORE"
+        textEdit.append(text)
+        text = "---------------------------------------------------------"
         textEdit.append(text)
         self.scores.sort(key=operator.itemgetter(1), reverse=True)
         for s in self.scores:
-            text = str(cnt)+"    |  "+s[0] + "\t\t|" + str(s[1])
+            text = str(cnt)+"    |  "+s[0] + "\t\t| " + str(s[1])
+            textEdit.append(text)
+            text = "---------------------------------------------------------"
             textEdit.append(text)
             cnt += 1
+            if cnt == 10:
+                break
 
     def start_game(self):
-        print("hello start game")
         player = [self.lineEdit.text(), 0]
         if player[0] == '':
             player[0] = 'guest'
