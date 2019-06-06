@@ -100,7 +100,6 @@ class Ui_Dialog(QtGui.QDialog):
         self.pushButton_2.clicked.connect(
             QtCore.QCoreApplication.instance().quit)
         self.retranslateUi(Dialog)
-
         Dialog.setTabOrder(self.lineEdit, self.pushButton)
         Dialog.setTabOrder(self.pushButton, self.scrollArea)
         Dialog.setTabOrder(self.scrollArea, self.pushButton_2)
@@ -130,8 +129,11 @@ class Ui_Dialog(QtGui.QDialog):
             cnt += 1
 
     def start_game(self):
+        print("hello start game")
         player = [self.lineEdit.text(), 0]
-        Dialog.hide()
+        if player[0] == '':
+            player[0] = 'guest'
+        Dialog.close()
         self.MainWindow = QtGui.QMainWindow()
         self.ui = game.Ui_MainWindow()
         self.ui.setupUi(self.MainWindow, Dialog)
@@ -143,13 +145,14 @@ class Ui_Dialog(QtGui.QDialog):
 
 if __name__ == "__main__":
     app = QtGui.QApplication(sys.argv)
-    Dialog2 = QtGui.QDialog()
-    ui2 = logo.Ui_Dialog2()
-    ui2.setupUi(Dialog2)
-    Dialog2.show()
     Dialog = QtGui.QDialog()
     ui = Ui_Dialog()
     ui.setupUi(Dialog)
+    Dialog2 = QtGui.QDialog()
+    ui2 = logo.Ui_Dialog2()
+    ui2.setupUi(Dialog2,Dialog)
+    Dialog2.show()
+   
     # Dialog.show()
     ui.leader_board()
     sys.exit(app.exec_())

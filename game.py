@@ -6,8 +6,6 @@
 #
 # WARNING! All changes made in this file will be lost!
 import sys
-import time
-from threading import Thread
 import random
 import sql
 from PyQt4 import QtCore, QtGui
@@ -92,8 +90,7 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.lcdNumber = QtGui.QLCDNumber(self.centralwidget)
         self.lcdNumber.setGeometry(QtCore.QRect(23, 12, 91, 31))
         self.lcdNumber.setObjectName(_fromUtf8("lcdNumber"))
-        #t= Thread(target=self._countdown)
-        #t.start()
+      
         self.progressBar = QtGui.QProgressBar(self.centralwidget)
         self.progressBar.setGeometry(QtCore.QRect(180, 20, 701, 23))
         self.progressBar.setProperty("value", 6)
@@ -159,12 +156,6 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.submit.clicked.connect(self.subans)
         self.actionNew_Game.setText(_translate("MainWindow", "New Game", None))
 
-    def _countdown(self):
-        x = 10
-        for i in range(x,0,-1):
-            time.sleep(1)
-            self.lcdnumber.display(i)
-
 
     def get_questions(self):
         self.questions = sql.getAllQues()
@@ -211,6 +202,8 @@ class Ui_MainWindow(QtGui.QMainWindow):
             self.progressBar.setValue(self.completed)
             if bol == True:
                 self.player[1] += 250
+                self.lcdNumber.display(self.player[1])
+                self.lcdNumber.repaint()
 
             if len(self.rnd) == sql.getQuesNums():
                 self.progressBar.setValue(100)
@@ -219,8 +212,13 @@ class Ui_MainWindow(QtGui.QMainWindow):
                                               "you finished the game with score: " +
                                               str(self.player[1]),
                                               QtGui.QMessageBox.Ok)
-                sys.exit()
+                self.mainwin.close()
+                
+                self.dia.show()                              
+                
             self.rnd.append(self.qs[0])
+
+        
 
     def setPlayer(self, player):
         self.player = player

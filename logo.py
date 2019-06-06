@@ -25,7 +25,9 @@ except AttributeError:
 
 
 class Ui_Dialog2(QtGui.QDialog):
-    def setupUi(self, Dialog):
+    def setupUi(self, Dialog,dialog_start):
+        self.sdialog=dialog_start
+        self.dia=Dialog
         Dialog.setObjectName(_fromUtf8("Dialog"))
         Dialog.resize(767, 553)
         icon = QtGui.QIcon()
@@ -61,3 +63,6 @@ class Ui_Dialog2(QtGui.QDialog):
         self.pushButton.setText(_translate("Dialog", "START", None))
 
     def start(self):
+        self.dia.close()
+        self.sdialog.show()
+
