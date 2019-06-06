@@ -25,11 +25,13 @@ except AttributeError:
 
 
 class Ui_Dialog2(QtGui.QDialog):
-    def setupUi(self, Dialog,dialog_start):
-        self.sdialog=dialog_start
-        self.dia=Dialog
+    def setupUi(self, Dialog, dialog_start):
+        self.sdialog = dialog_start
+        self.dia = Dialog
         Dialog.setObjectName(_fromUtf8("Dialog"))
         Dialog.resize(767, 553)
+        Dialog.setMinimumSize(QtCore.QSize(767, 553))
+        Dialog.setMaximumSize(QtCore.QSize(767, 553))
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(_fromUtf8(
             "brainstorm.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -65,4 +67,3 @@ class Ui_Dialog2(QtGui.QDialog):
     def start(self):
         self.dia.close()
         self.sdialog.show()
-
