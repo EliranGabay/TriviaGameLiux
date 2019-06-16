@@ -1,0 +1,31 @@
+              
+-------------------------Trivia Game---------------------------
+
+Trivia game contains programing questions
+
+for storage we use sql DB sqlite3
+to store our game questions ,answers and leaderboard 
+
+for our gui we are using PyQt4
+
+we use python3 version for this game 
+
+to start the game you have the makefile 
+
+first open your command line in the game folder and run
+
+the command make
+
+after that use the command
+
+make install and then you are setup to start the game from any where
+
+just opne the command line and write start.py
+
+and you can start playing.
+
+
+to remove the game just go to  /usr/local/bin/
+
+and delete start.py game.py logo.py sql.py files
+
